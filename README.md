@@ -3,6 +3,8 @@ Multi-layer Recurrent Neural Networks (LSTM, RNN) for character-level language m
 
 Inspired from Andrej Karpathy's [char-rnn](https://github.com/karpathy/char-rnn).
 
+Fork modified to work with words instead of characters
+
 # Requirements
 - [Tensorflow](http://www.tensorflow.org)
 
