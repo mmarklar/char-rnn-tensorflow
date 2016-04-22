@@ -1,3 +1,4 @@
+import re
 import tensorflow as tf
 from tensorflow.models.rnn import rnn_cell
 from tensorflow.models.rnn import seq2seq
@@ -60,9 +61,10 @@ class Model():
 
     def sample(self, sess, chars, vocab, num=200, prime='The '):
         state = self.cell.zero_state(1, tf.float32).eval()
-        for char in prime[:-1]:
+        words = re.findall(r"[\w']+|[.,!?;\s]", prime)
+        for word in words:
             x = np.zeros((1, 1))
-            x[0, 0] = vocab[char]
+            x[0, 0] = vocab[word]
             feed = {self.input_data: x, self.initial_state:state}
             [state] = sess.run([self.final_state], feed)
 
@@ -72,7 +74,7 @@ class Model():
             return(int(np.searchsorted(t, np.random.rand(1)*s)))
 
         ret = prime
-        char = prime[-1]
+        char = words[-1]
         for n in range(num):
             x = np.zeros((1, 1))
             x[0, 0] = vocab[char]
